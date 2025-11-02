@@ -1,3 +1,9 @@
+"""
+hexapawn_game.py
+
+Defines a controller that manages a Hexapawn game.
+"""
+
 from board import Board
 from player import Player
 
@@ -34,7 +40,7 @@ class HexapawnGame:
             - the opponent is left with no legal moves
         """
         promotion = False
-        for piece_position in self.board.get_all_pieces(self.current_player_idx):
+        for piece_position in self.board.get_player_positions(self.current_player_idx):
             row, _ = piece_position
             if self.current_player_idx == 0 and row == 0:
                 promotion = True
@@ -67,10 +73,10 @@ class HexapawnGame:
         """
         legal_moves = []
 
-        piece_positions = self.board.get_piece_positions(player_idx)
+        piece_positions = self.board.get_player_positions(player_idx)
 
         player_direction = -1 if player_idx == 0 else 1 # adjusts move directions to that player's perspective
-        opponent_piece = 2 if player_idx == 1 else 1
+        opponent_piece = 2 if player_idx == 0 else 1
 
         for piece_position in piece_positions:
             row, col = piece_position
@@ -119,17 +125,22 @@ class HexapawnGame:
             print(self.board)
             print(f'{self.players[self.current_player_idx].name}\'s turn.')
 
+            selected_move = None
             legal_moves = self.get_legal_moves(self.current_player_idx)
-            from_pos, to_pos = self.players[self.current_player_idx].get_move(self.board, legal_moves)
+            loop_count = 0
+            while selected_move not in legal_moves and loop_count < 10:
+                selected_move = self.players[self.current_player_idx].get_move(self.board)
+                from_pos, to_pos = selected_move
 
-            if self.make_move(from_pos, to_pos):
-                print(f'Moved from {from_pos} to {to_pos}.')
-            else:
-                print('Move not legal!')
+                if self.make_move(from_pos, to_pos):
+                    print(f'Moved {self.players[self.current_player_idx].name}\'s piece from {from_pos} to {to_pos}.\n')
+                else:
+                    print('Move not legal!')
+
+                loop_count += 1
 
             self.check_game_over()
             self.next_player_turn()
 
         print(self.board)
-        print('Game over!')
-        print(f'Player {self.players[self.winner].name} wins!')
+        print(f'Game over! {self.players[self.winner].name} wins!')
