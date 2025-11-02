@@ -1,5 +1,4 @@
 
-
 class Board:
     """
     A structure to represent a Hexapawn board.
@@ -13,7 +12,12 @@ class Board:
         """
         Sets up the board for a new game.
 
-        :return:
+        None = empty square
+        1 = player 1 piece
+        2 = player 2 piece
+
+        Returns:
+            grid (list): A 2D array that represents the squares of the game board.
         """
         grid = [[None] * self.size for _ in range(self.size)]
 
@@ -27,9 +31,11 @@ class Board:
         """
         Checks to make sure a position is within the board space.
 
-        :param row:
-        :param col:
-        :return:
+        Args:
+            position (tuple): A (row, column) tuple.
+
+        Returns:
+            (bool): Truth of if the position is within the board space.
         """
         row, col = position
         return 0 <= row < self.size and 0 <= col < self.size
@@ -48,6 +54,27 @@ class Board:
         piece = self.grid[row][col]
         return piece
 
+    def get_player_positions(self, player_idx):
+        """
+        Gets all the locations of pieces the given player has on the board.
+
+        Args:
+            player_idx (int): The player index.
+
+        Returns:
+            positions (list): A list of (row, col) tuples where the pieces are located.
+        """
+        player = player_idx + 1 # convert from player index to player number
+
+        positions = []
+        for row in range(self.size):
+            for col in range(self.size):
+                if self.grid[row][col] == player:
+                    positions.append(self.grid[row][col])
+
+        return positions
+
+
     def _set_piece(self, piece, position):
         """
         Sets the game player game piece at the given position.
@@ -58,6 +85,7 @@ class Board:
         """
         row, col = position
         self.grid[row][col] = piece
+
 
     def move_piece(self, from_pos, to_pos):
         """
@@ -71,8 +99,10 @@ class Board:
             self._set_piece(self.get_piece(from_pos), to_pos)
             self._set_piece(None, from_pos)
 
+
     def copy(self):
         pass
+
 
     def to_string(self):
         """
@@ -85,7 +115,7 @@ class Board:
         2 = player 2
 
         Returns:
-             (string): A string representation of the board.
+             (string): A compact string representation of the board.
         """
         result = []
         for row in self.grid:
@@ -93,10 +123,12 @@ class Board:
                 result.append(square if square is not None else '0')
         return ''.join(result)
 
+
     def __str__(self):
         """
 
-        :return:
+        Returns:
+            (string): A graphical string representation of the board.
         """
         result = []
 
