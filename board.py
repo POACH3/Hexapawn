@@ -1,12 +1,18 @@
+"""
+board.py
+
+Defines a structure for a Hexapawn game board.
+"""
 
 class Board:
     """
-    A structure to represent a Hexapawn board.
+    A Hexapawn board state.
     """
 
     def __init__(self, size=3):
         self.size = size
         self.grid = self._init_grid()
+
 
     def _init_grid(self):
         """
@@ -27,6 +33,7 @@ class Board:
 
         return grid
 
+
     def is_valid_position(self, position):
         """
         Checks to make sure a position is within the board space.
@@ -39,6 +46,7 @@ class Board:
         """
         row, col = position
         return 0 <= row < self.size and 0 <= col < self.size
+
 
     def get_piece(self, position):
         """
@@ -53,6 +61,7 @@ class Board:
         row, col = position
         piece = self.grid[row][col]
         return piece
+
 
     def get_player_positions(self, player_idx):
         """
@@ -70,7 +79,7 @@ class Board:
         for row in range(self.size):
             for col in range(self.size):
                 if self.grid[row][col] == player:
-                    positions.append(self.grid[row][col])
+                    positions.append((row, col))
 
         return positions
 
@@ -133,17 +142,18 @@ class Board:
         result = []
 
         # column headers
-        result.append('    ')
+        result.append('   ')
         for col in range(self.size):
-            result.append(f' {col}')
+            result.append(f'  {col}')
         result.append('\n')
+        result.append('     -  -  -\n')
 
         # row headers and board
         for row in range(self.size):
-            result.append(f'{row} ')
+            result.append(f'{row} | ')
             for col in range(self.size):
                 square = self.grid[row][col] if self.grid[row][col] is not None else '0'
-                result.append(f' {square}')
+                result.append(f' {square} ')
             result.append('\n')
 
         return ''.join(result)
