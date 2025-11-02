@@ -31,6 +31,17 @@ class ComputerPlayer(Player):
         """
         try:
             move = self.strategy.get_move(board)
+
+            if not isinstance(move, tuple) or len(move) != 2:
+                raise ValueError("Move must be a tuple of two board positions in (from location, to location) format.")
+
+            for position in move:
+                if not isinstance(position, tuple) or len(position) != 2:
+                    raise ValueError("Positions must be a tuple of a board row and column in (row, column) format.")
+
+                if not all(isinstance(element, int) for element in position):
+                    raise ValueError("Row and column elements must be integers.")
+
             return move
 
         except ValueError:
