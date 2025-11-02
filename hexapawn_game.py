@@ -130,6 +130,11 @@ class HexapawnGame:
             loop_count = 0
             while selected_move not in legal_moves and loop_count < 10:
                 selected_move = self.players[self.current_player_idx].get_move(self.board)
+
+                if selected_move is None:
+                    print('Quitting...')
+                    quit()
+
                 from_pos, to_pos = selected_move
 
                 if self.make_move(from_pos, to_pos):

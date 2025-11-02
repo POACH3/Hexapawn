@@ -29,6 +29,9 @@ class HumanPlayer(Player):
             try:
                 parts = player_input.split(',')
 
+                if parts[0] == 'q':
+                    return None
+
                 if len(parts) != 4:
                     raise ValueError
 
