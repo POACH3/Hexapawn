@@ -41,34 +41,33 @@ The game is won when a pawn reaches the opposite side (promotion) or the opponen
 
 ## API
 
-### Board Representation
+#### Board Representation
 - The board is represented as a row-major 2D array where (row, col) indexes start at (0,0) in the top-left corner from Player 1’s perspective. 
 - A string representation is used by flattening the 2D array into a single string of 9 characters (for a 3×3 board), with (0,0) appearing first. 
 - Values in the representation:
   - 0 → empty square
-
   - 1 → Player 1’s pawn
-
   - 2 → Player 2’s pawn
-
 - Example: The board shown in the image above would be represented as:
 222000111
 
-### Player Class
-`Player(name: str, filepath: str)`
+#### ComputerPlayer Class
+`ComputerPlayer(name: str, filepath: str)`
 
-- **Description**: Represents a player in the Hexapawn environment.
+- **Description**: Represents a computer-controlled player in the Hexapawn environment.
 - **Constructor Arguments**:
   - `name` (`str`): The name of the player.
   - `filepath` (`str`): Path to the agent class implementation.
 
-### Agent Interface
-- Any agent used with `Player` must implement a `get_move(board_state: str)` method.
-  ```python
-  get_move(board_state: str) -> ((from_row, from_col), (to_row, to_col))
-- Arguments:
-  - board_state (str): Flattened string representation of the board (see Board Representation above)
-- Returns:
-  - A tuple of two coordinates indicating the move: ((from_row, from_col), (to_row, to_col))
+#### Agent Interface
+Any agent used with `ComputerPlayer` must implement a `get_move` method:
 
-NOTE: Future versions may include legal moves (as a list) as an additional argument to `get_move`.
+`get_move(board_state: str) -> ((from_row, from_col), (to_row, to_col))`
+
+- **Description**: Given a board state, a move is produced.
+- **Arguments**:
+  - `board_state` (`str`): Flattened string representation of the board (see Board Representation above)
+- **Returns**:
+  - (`tuple`): Two coordinates indicating the move: ((from_row, from_col), (to_row, to_col))
+
+NOTE: Future versions may include legal moves (`list`) as an additional argument to `get_move`.
