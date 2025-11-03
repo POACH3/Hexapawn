@@ -48,7 +48,7 @@ The game is won when a pawn reaches the opposite side (promotion) or the opponen
   - 0 → empty square
   - 1 → Player 1’s pawn
   - 2 → Player 2’s pawn
-- Example: The board shown in the image above would be represented as:
+- Example: The board shown in the [image above](https://github.com/POACH3/Hexapawn?tab=readme-ov-file#project-overview) would be represented as:
 222000111
 
 #### ComputerPlayer Class
@@ -66,7 +66,7 @@ Any agent used with `ComputerPlayer` must implement a `get_move` method:
 
 - **Description**: Given a board state, a move is produced.
 - **Arguments**:
-  - `board_state` (`str`): Flattened string representation of the board (see Board Representation above)
+  - `board_state` (`str`): Flattened string representation of the board (see [Board Representation](https://github.com/POACH3/Hexapawn?tab=readme-ov-file#board-representation) above)
 - **Returns**:
   - (`tuple`): Two coordinates indicating the move: ((from_row, from_col), (to_row, to_col))
 
