@@ -51,7 +51,7 @@ The game is won when a pawn reaches the opposite side of the board (promotion) o
     - `0` → unoccupied square
     - `1` → Player 1 pawn
     - `2` → Player 2 pawn
-  - Example: The board shown in the [image above](#Gameplay) would be represented as:
+  - Example: The board shown in the [image](#Hexapawn) above would be represented as:
   `222000111`
 
 ### ComputerPlayer Class
