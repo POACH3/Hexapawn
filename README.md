@@ -44,13 +44,13 @@ The game is won when a pawn reaches the opposite side of the board (promotion) o
 ## API
 
 ### Board Representation
-- The board is represented from Player 1’s perspective as a row-major 2D array where `(row, col)` indexes start at `(0, 0)` in the top-left corner. 
+- The board is represented from the White (Player 1) perspective as a row-major 2D array where `(row, col)` indexes start at `(0, 0)` in the top-left corner. 
 - A string representation of the board is formed by flattening the array in row-major order— left to right within each row, starting from the top row.
   - In the case of a 3×3 board, there would be 9 characters, with the first position corresponding to the `(0, 0)` square and the last corresponding to `(2,2)`. 
   - Values in the representation:
     - `0` → unoccupied square
-    - `1` → Player 1 pawn
-    - `2` → Player 2 pawn
+    - `1` → White (Player 1) pawn
+    - `2` → Black (Player 2) pawn
   - Example: The board shown in the [image](#Hexapawn) above would be represented as:
   `222000111`
 
@@ -81,5 +81,5 @@ Note: Future versions may add an additional argument to `get_move`— a list of 
 **Start Date:** 1-NOV-2025  
 **License:** MIT License – see [LICENSE](./LICENSE)  
 **Language:** Python 3.11+ (tested on 3.11)  
-**Status:** Alpha (experimental)  
+**Status:** Alpha (early development)  
 **Topics:** game, hexapawn, menace, ai, reinforcement-learning, machine-learning
