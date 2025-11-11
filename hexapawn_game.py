@@ -48,51 +48,11 @@ class HexapawnGame:
                 promotion = True
 
         next_player = 1 if self.current_player_idx == 0 else 0
-        no_legal_moves = (len(self.get_legal_moves(next_player)) == 0)
+        no_legal_moves = (len(self.board.get_legal_moves(next_player)) == 0)
 
         if promotion or no_legal_moves:
             self.is_game_over = True
             self.winner = 0 if self.current_player_idx == 0 else 1
-
-
-    def get_legal_moves(self, player_idx):
-        """
-        Gets legal moves available for the given player, given the current board state.
-
-        Legal moves are:
-            - in board (within the grid)
-            - diagonal left 1 square if occupied by an opponent's piece (capture)
-            - forward 1 square if not occupied by an opponent's piece
-            - diagonal right 1 square if occupied by an opponent's piece (capture)
-
-        Args:
-            player_idx (int): The index of the player whose moves are being checked.
-
-        Returns:
-            legal_moves (list): A list of from position --> to position tuples.
-        """
-        legal_moves = []
-
-        piece_positions = self.board.get_player_positions(player_idx)
-
-        player_direction = -1 if player_idx == 0 else 1 # adjusts move directions to that player's perspective
-        opponent_piece = 2 if player_idx == 0 else 1
-
-        for piece_position in piece_positions:
-            row, col = piece_position
-
-            diag_left = (row + player_direction, col + player_direction)
-            forward = (row + player_direction, col)
-            diag_right = (row + player_direction, col - player_direction)
-
-            if self.board.is_valid_position(diag_left) and self.board.get_piece(diag_left) == opponent_piece:
-                legal_moves.append((piece_position, diag_left))
-            if self.board.is_valid_position(forward) and self.board.get_piece(forward) is None:
-                legal_moves.append((piece_position, forward))
-            if self.board.is_valid_position(diag_right) and self.board.get_piece(diag_right) == opponent_piece:
-                legal_moves.append((piece_position, diag_right))
-
-        return legal_moves
 
 
     def make_move(self, from_pos, to_pos):
@@ -106,7 +66,7 @@ class HexapawnGame:
         Returns:
             (bool): The truth of whether the move was made or not.
         """
-        legal_moves = self.get_legal_moves(self.current_player_idx)
+        legal_moves = self.board.get_legal_moves(self.current_player_idx)
         move = (from_pos, to_pos)
 
         if move in legal_moves:
@@ -126,7 +86,7 @@ class HexapawnGame:
             print(f'{self.players[self.current_player_idx].name}\'s turn.')
 
             selected_move = None
-            legal_moves = self.get_legal_moves(self.current_player_idx)
+            legal_moves = self.board.get_legal_moves(self.current_player_idx)
             loop_count = 0
             while selected_move not in legal_moves and loop_count < 10:
                 selected_move = self.players[self.current_player_idx].get_move(self.board)

@@ -109,6 +109,46 @@ class Board:
             self._set_piece(None, from_pos)
 
 
+    def get_legal_moves(self, player_idx):
+        """
+        Gets legal moves available for the given player, given the current board state.
+
+        Legal moves are:
+            - in board (within the grid)
+            - diagonal left 1 square if occupied by an opponent's piece (capture)
+            - forward 1 square if not occupied by an opponent's piece
+            - diagonal right 1 square if occupied by an opponent's piece (capture)
+
+        Args:
+            player_idx (int): The index of the player whose moves are being checked.
+
+        Returns:
+            legal_moves (list): A list of from position --> to position tuples.
+        """
+        legal_moves = []
+
+        piece_positions = self.get_player_positions(player_idx)
+
+        player_direction = -1 if player_idx == 0 else 1 # adjusts move directions to that player's perspective
+        opponent_piece = 2 if player_idx == 0 else 1
+
+        for piece_position in piece_positions:
+            row, col = piece_position
+
+            diag_left = (row + player_direction, col + player_direction)
+            forward = (row + player_direction, col)
+            diag_right = (row + player_direction, col - player_direction)
+
+            if self.is_valid_position(diag_left) and self.get_piece(diag_left) == opponent_piece:
+                legal_moves.append((piece_position, diag_left))
+            if self.is_valid_position(forward) and self.get_piece(forward) is None:
+                legal_moves.append((piece_position, forward))
+            if self.is_valid_position(diag_right) and self.get_piece(diag_right) == opponent_piece:
+                legal_moves.append((piece_position, diag_right))
+
+        return legal_moves
+
+
     def copy(self):
         pass
 
