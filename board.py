@@ -3,15 +3,30 @@ board.py
 
 Defines a structure for a Hexapawn game board.
 """
+import copy
+
 
 class Board:
     """
     A Hexapawn board state.
     """
 
-    def __init__(self, size=3):
-        self.size = size
-        self.grid = self._init_grid()
+    def __init__(self, size=3, state=None):
+        """
+        Constructor.
+
+        Args:
+            size (int): The size of the board (number of rows or columns).
+            state (string): A string representing the board state.
+        """
+        if state is not None:
+            if len(list(state)) != (size*size):
+                raise ValueError(f'Board state string must have {size}x{size} elements.')
+            self.size = size
+            self.grid = self.to_matrix(state)
+        else:
+            self.size = size
+            self.grid = self._init_grid()
 
 
     def _init_grid(self):
@@ -150,7 +165,7 @@ class Board:
 
 
     def copy(self):
-        pass
+        return copy.deepcopy(self)
 
 
     def to_string(self):
@@ -171,6 +186,28 @@ class Board:
             for square in row:
                 result.append(square if square is not None else '0')
         return ''.join(result)
+
+
+    def to_matrix(self, state):
+        """
+        Converts a string representation of the board into a matrix.
+
+        Args:
+            state (str): A string representation of the board.
+
+        Returns:
+            board (list): A matrix representation of the board.
+        """
+        chars = list(state)
+        board = [chars[i:i+self.size] for i in range(0, len(chars), self.size)]
+
+        for r in range(self.size):
+            for c in range(self.size):
+                if board[r][c] == '0':
+                    board[r][c] = None
+                elif board[r][c] in ('1', '2'):
+                    board[r][c] = int(board[r][c])
+        return board
 
 
     def __str__(self):
