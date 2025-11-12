@@ -40,15 +40,15 @@ class HexapawnGame:
             - the opponent is left with no legal moves
         """
         promotion = False
-        for piece_position in self.board.get_player_positions(self.current_player_idx):
+        for piece_position in self.board.get_player_positions(self.current_player_idx+1):
             row, _ = piece_position
             if self.current_player_idx == 0 and row == 0:
                 promotion = True
             if self.current_player_idx == 1 and row == self.board.size-1:
                 promotion = True
 
-        next_player = 1 if self.current_player_idx == 0 else 0
-        no_legal_moves = (len(self.board.get_legal_moves(next_player)) == 0)
+        next_player_idx = 1 if self.current_player_idx == 0 else 1
+        no_legal_moves = (len(self.board.get_legal_moves(next_player_idx)) == 0)
 
         if promotion or no_legal_moves:
             self.is_game_over = True
@@ -66,7 +66,7 @@ class HexapawnGame:
         Returns:
             (bool): The truth of whether the move was made or not.
         """
-        legal_moves = self.board.get_legal_moves(self.current_player_idx)
+        legal_moves = self.board.get_legal_moves(self.current_player_idx+1)
         move = (from_pos, to_pos)
 
         if move in legal_moves:
@@ -86,7 +86,8 @@ class HexapawnGame:
             print(f'{self.players[self.current_player_idx].name}\'s turn.')
 
             selected_move = None
-            legal_moves = self.board.get_legal_moves(self.current_player_idx)
+            legal_moves = self.board.get_legal_moves(self.current_player_idx+1)
+
             loop_count = 0
             while selected_move not in legal_moves and loop_count < 10:
                 selected_move = self.players[self.current_player_idx].get_move(self.board)

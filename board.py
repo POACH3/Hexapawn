@@ -78,19 +78,18 @@ class Board:
         return piece
 
 
-    def get_player_positions(self, player_idx):
+    def get_player_positions(self, player):
         """
         Gets all the locations of pieces the given player has on the board.
 
         Args:
-            player_idx (int): The player index.
+            player (int): The player.
 
         Returns:
             positions (list): A list of (row, col) tuples where the pieces are located.
         """
-        player = player_idx + 1 # convert from player index to player number
-
         positions = []
+
         for row in range(self.size):
             for col in range(self.size):
                 if self.grid[row][col] == player:
@@ -124,7 +123,7 @@ class Board:
             self._set_piece(None, from_pos)
 
 
-    def get_legal_moves(self, player_idx):
+    def get_legal_moves(self, player):
         """
         Gets legal moves available for the given player, given the current board state.
 
@@ -135,17 +134,17 @@ class Board:
             - diagonal right 1 square if occupied by an opponent's piece (capture)
 
         Args:
-            player_idx (int): The index of the player whose moves are being checked.
+            player (int): The player whose moves are being checked.
 
         Returns:
             legal_moves (list): A list of from position --> to position tuples.
         """
         legal_moves = []
 
-        piece_positions = self.get_player_positions(player_idx)
+        piece_positions = self.get_player_positions(player)
 
-        player_direction = -1 if player_idx == 0 else 1 # adjusts move directions to that player's perspective
-        opponent_piece = 2 if player_idx == 0 else 1
+        player_direction = -1 if player == 1 else 1 # adjusts move directions to that player's perspective
+        opponent_piece = 2 if player == 1 else 1
 
         for piece_position in piece_positions:
             row, col = piece_position
@@ -184,7 +183,7 @@ class Board:
         result = []
         for row in self.grid:
             for square in row:
-                result.append(square if square is not None else '0')
+                result.append(str(square) if square is not None else '0')
         return ''.join(result)
 
 
