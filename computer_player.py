@@ -15,6 +15,13 @@ class ComputerPlayer(Player):
     """
 
     def __init__(self, name, agent):
+        """
+        Constructor.
+
+        Args:
+            name (str): The name of the player.
+            agent: An instance of the AI class whose logic controls the player.
+        """
         super().__init__(name)
         self.agent = agent
 
@@ -54,7 +61,7 @@ class ComputerPlayer(Player):
 
         Args:
             game_history (list): The game history represented as a list of (state, move) tuples .
-            player_position (int): The player number.
+            player_position (int): The player number of the player receiving this report.
             winner_position (int): The player number of the winner.
         """
         self.agent.game_report(game_history, player_position, winner_position)
