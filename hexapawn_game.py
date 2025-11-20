@@ -2,6 +2,9 @@
 hexapawn_game.py
 
 Defines a controller that manages a Hexapawn game.
+
+NOTES:
+    consider passing the legal moves and player position to agent on each move
 """
 
 from board import Board
