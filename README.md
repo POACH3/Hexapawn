@@ -74,6 +74,17 @@ The game is won when a pawn reaches the opposite side of the board (promotion) o
 
 Note: Future versions may add an additional argument to `get_move`— a list of legal moves (`list`) available from the given board state.
 
+`game_report(game_history: list, player_position: int, winner_position: int) -> None`
+
+- **Requirement**: All custom agent classes **must** define (but not necessarily implement) this method to be compatible with `ComputerPlayer`.
+- **Description**: Provides feedback to the agent as a courtesy, but is not needed for gameplay.
+- **Arguments**:
+  - `game_history` (`list`): List of (`board_state`, `move`) tuples. As with the method above, `board_state` is a flattened string representation of the board (see [Board Representation](#board-representation) above)
+  - `player_position` (`int`): The player number.
+  - `winner_position` (`int`): The player number of the winner.
+- **Returns**:
+  - `None`
+
 ---
 
 ## Project Info

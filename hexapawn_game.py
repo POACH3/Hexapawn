@@ -6,6 +6,7 @@ Defines a controller that manages a Hexapawn game.
 
 from board import Board
 from player import Player
+from computer_player import ComputerPlayer
 
 class HexapawnGame:
     """
@@ -17,10 +18,11 @@ class HexapawnGame:
 
     def __init__(self, player_1, player_2, board=None):
         self.players = [player_1, player_2]
+        self.game_history = []                               # list of (board, move) tuples, board is a string, move is a tuple of int tuples
         self.board = board if board is not None else Board() # set up a new board if necessary
-        self.current_player_idx = 0                          # start with player 1
+        self.current_player_idx = 0                          # the position of the current player (start with player 1)
         self.is_game_over = False
-        self.winner = None                                   # who won
+        self.winner_idx = None                               # the position of who won
 
 
     def next_player_turn(self):
@@ -76,6 +78,21 @@ class HexapawnGame:
             return False
 
 
+    def send_report(self):
+        """
+        Outputs the results of the game. Calls the game_report function for
+        computer players. Prints game results.
+        """
+        for index, player in enumerate(self.players):
+            if isinstance(player, ComputerPlayer):
+                player_position = index + 1
+                winner_position = self.winner_idx + 1
+                player.game_report(self.game_history, player_position, winner_position)
+
+        print(self.board)
+        print(f'Game over! {self.players[self.winner_idx].name} wins!')
+
+
     def play(self):
         """
         Manages game play loop.
@@ -97,8 +114,10 @@ class HexapawnGame:
                     quit()
 
                 from_pos, to_pos = selected_move
+                last_board = self.board.copy() # current board, but is about to be last board-- we need a copy before the move is made
 
                 if self.make_move(from_pos, to_pos):
+                    self.game_history.append( (last_board.to_string(), selected_move) )
                     print(f'Moved {self.players[self.current_player_idx].name}\'s piece from {from_pos} to {to_pos}.\n')
                 else:
                     print('Move not legal!')
@@ -108,5 +127,4 @@ class HexapawnGame:
             self.check_game_over()
             self.next_player_turn()
 
-        print(self.board)
-        print(f'Game over! {self.players[self.winner].name} wins!')
+        self.send_report()

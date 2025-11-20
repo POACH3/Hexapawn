@@ -4,7 +4,7 @@ computer_player.py
 Defines an AI-controlled player (from a Player base class) for Hexapawn.
 
 NOTES:
-    need to add a way for the AI to remember the moves made during the game (update MENACE)
+    none
 """
 
 from player import Player
@@ -14,14 +14,14 @@ class ComputerPlayer(Player):
     An AI-controlled player.
     """
 
-    def __init__(self, name, strategy):
+    def __init__(self, name, agent):
         super().__init__(name)
-        self.strategy = strategy
+        self.agent = agent
 
 
     def get_move(self, board):
         """
-        Gets an AI's selected move.
+        Gets an agent's selected move.
 
         Args:
             board (Board): The game state.
@@ -30,7 +30,7 @@ class ComputerPlayer(Player):
             move (tuple): The move to make as a tuple of (row, column) tuples.
         """
         try:
-            move = self.strategy.get_move(board)
+            move = self.agent.get_move(board)
 
             if not isinstance(move, tuple) or len(move) != 2:
                 raise ValueError("Move must be a tuple of two board positions in (from location, to location) format.")
@@ -46,3 +46,15 @@ class ComputerPlayer(Player):
 
         except ValueError:
             print("Invalid move format. Quitting.")
+
+
+    def game_report(self, game_history, player_position, winner_position):
+        """
+        Provides feedback to the agent.
+
+        Args:
+            game_history (list): The game history represented as a list of (state, move) tuples .
+            player_position (int): The player number.
+            winner_position (int): The player number of the winner.
+        """
+        self.agent.game_report(game_history, player_position, winner_position)
