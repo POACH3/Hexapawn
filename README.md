@@ -73,6 +73,7 @@ The game is won when a pawn reaches the opposite side of the board (promotion) o
   - (`tuple`): Two coordinates indicating the move: `((from_row, from_col), (to_row, to_col))`
 
 Note: Future versions may add an additional argument to `get_move`— a list of legal moves (`list`) available from the given board state.
+<br><br>
 
 `game_report(game_history: list, player_position: int, winner_position: int) -> None`
 
@@ -80,10 +81,12 @@ Note: Future versions may add an additional argument to `get_move`— a list of 
 - **Description**: Provides feedback to the agent as a courtesy, but is not needed for gameplay.
 - **Arguments**:
   - `game_history` (`list`): List of (`board_state`, `move`) tuples. As with the method above, `board_state` is a flattened string representation of the board (see [Board Representation](#board-representation) above)
-  - `player_position` (`int`): The player number.
+  - `player_position` (`int`): The player number of the player receiving this report.
   - `winner_position` (`int`): The player number of the winner.
 - **Returns**:
   - `None`
+
+Note: Future versions may add additional arguments to `game_report` or provide feedback throughout the game in order to facilitate the training of different agent types.
 
 ---
 
