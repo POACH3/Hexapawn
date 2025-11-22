@@ -2,7 +2,7 @@
 
 Inspired by Donald Michie’s [MENACE](https://en.wikipedia.org/wiki/Matchbox_Educable_Noughts_and_Crosses_Engine) reinforcement learning experiment, this project provides a simple Hexapawn environment for experimenting with decision-making and learning algorithms.
 
-![Status](https://img.shields.io/badge/status-alpha-yellow)
+![Status](https://img.shields.io/badge/status-beta-green)
 ![Python](https://img.shields.io/badge/python-3.11+-blue)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 <!--[![Tests](https://img.shields.io/badge/tests-%20none-lightgrey)]()-->
@@ -26,18 +26,18 @@ The game is won when a pawn reaches the opposite side of the board (promotion) o
 ## Features & Status
 
 ### Current
-- Supports human v. human gameplay.
-- Flexible API for integrating user-supplied AI agents. (see limitations below)
+- Supports human v. human, human v. AI, and AI v. AI gameplay.
+- API for integrating user-supplied AI agents. (see limitations below)
 - Terminal-based interface for display and gameplay (for human players).
 - Modular board size, allowing for play of Octopawn (or larger Hexapawn derivatives).
 
 ### Planned
-- Support for human v. AI, and AI v. AI gameplay.
+- Improved AI integration - looking for a solution that is less clunky, but allows for the files for this project and the agent to remain separated.
 - GUI - improved visualization.
 
 ### Known Limitations
 - **Testing**: This project has been manually tested through human gameplay, but lacks automated unit tests. Edge cases may not be fully covered.
-- **AI Integration**: The agent loading mechanism has not been tested.
+- **AI Integration**: The agent loading mechanism is clunky.
 - **Board sizes**: Modular board sizes are supported but have only been tested with the standard 3×3 configuration.
 ---
 
@@ -55,16 +55,27 @@ The game is won when a pawn reaches the opposite side of the board (promotion) o
   `222000111`
 
 ### ComputerPlayer Class
-`ComputerPlayer(name: str, filepath: str)`
 
+`ComputerPlayer(name: str, agent: Agent)`
 - **Description**: Represents a computer-controlled player in the Hexapawn environment.
 - **Constructor Arguments**:
   - `name` (`str`): A name given to the agent player.
-  - `filepath` (`str`): Path to the agent class implementation.
+  - `agent` (`Agent`): Any agent object implementing the methods [below](###Agent Interface).
 
 ### Agent Interface
-`get_move(board_state: str) -> ((from_row, from_col), (to_row, to_col))`
 
+`Agent(**kwargs)`
+- **Requirement**: All custom agent classes **must** accept `**kwargs`. This allows additional optional parameters to be passed without breaking compatibility.
+- **Description**: Constructor. Using the info contained in `**kwargs` is optional.
+- **Arguments**:
+  - `**kwargs` (`dict`)
+- **Expected keys in `**kwargs`**:
+  - `player_position` (`int`): The play order position (player number) of the agent. 
+  - `game_name` (`str`): The name of the game being played. 
+  - `states_and_moves` (`dict`, optional): Maps game states to their legal moves.
+<br><br>
+
+`get_move(board_state: str) -> ((from_row, from_col), (to_row, to_col))`
 - **Requirement**: All custom agent classes **must** implement this method to be compatible with `ComputerPlayer`.
 - **Description**: Given a board state, returns the move the agent chooses to make.
 - **Arguments**:
@@ -76,7 +87,6 @@ Note: Future versions may add an additional argument to `get_move`— a list of 
 <br><br>
 
 `game_report(game_history: list, player_position: int, winner_position: int) -> None`
-
 - **Requirement**: All custom agent classes **must** define (but not necessarily implement) this method to be compatible with `ComputerPlayer`.
 - **Description**: Provides feedback to the agent as a courtesy, but is not needed for gameplay.
 - **Arguments**:
@@ -95,5 +105,5 @@ Note: Future versions may add additional arguments to `game_report` or provide f
 **Start Date:** 1-NOV-2025  
 **License:** MIT License – see [LICENSE](./LICENSE)  
 **Language:** Python 3.11+ (tested on 3.11)  
-**Status:** Alpha (early development)  
+**Status:** Beta (usable, but lacks some features)  
 **Topics:** game, hexapawn, menace, ai, reinforcement-learning, machine-learning
