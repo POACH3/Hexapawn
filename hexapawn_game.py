@@ -19,11 +19,11 @@ class HexapawnGame:
     checks for a win.
     """
 
-    def __init__(self, player_1, player_2, board=None):
+    def __init__(self, player_1, player_2, board=None, start_player=None):
         self.players = [player_1, player_2]
         self.game_history = []                               # list of (board, move) tuples, board is a string, move is a tuple of int tuples
         self.board = board if board is not None else Board() # set up a new board if necessary
-        self.current_player_idx = 0                          # the position of the current player (start with player 1)
+        self.current_player_idx = 0 if start_player is None else start_player - 1 # the position of the current player (start with player 1)
         self.is_game_over = False
         self.winner_idx = None                               # the position of who won
 
@@ -57,7 +57,7 @@ class HexapawnGame:
 
         if promotion or no_legal_moves:
             self.is_game_over = True
-            self.winner = 0 if self.current_player_idx == 0 else 1
+            self.winner_idx = 0 if self.current_player_idx == 0 else 1
 
 
     def make_move(self, from_pos, to_pos):
@@ -110,7 +110,7 @@ class HexapawnGame:
 
             loop_count = 0
             while selected_move not in legal_moves and loop_count < 10:
-                selected_move = self.players[self.current_player_idx].get_move(self.board)
+                selected_move = self.players[self.current_player_idx].get_move(self.board.to_string())
 
                 if selected_move is None:
                     print('Quitting...')
