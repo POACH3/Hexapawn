@@ -3,7 +3,8 @@ main.py
 
 NOTES:
     figure out a better way to load an agent while maintaining project separation.
-    make it cleaner to easily run repeatedly with no user input (to train models)
+    make it cleaner to easily run repeatedly with no user input (to train models).
+    consider implementing a BaseAgent interface for agents to inherit from.
 """
 import os
 import sys

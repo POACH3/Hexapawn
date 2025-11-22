@@ -5,6 +5,7 @@ Defines a controller that manages a Hexapawn game.
 
 NOTES:
     consider passing the legal moves and player position to agent on each move
+    remove console output when there are two ComputerPlayers playing
 """
 
 from board import Board
